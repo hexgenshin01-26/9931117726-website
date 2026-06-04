@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Birthday Gift 🎁</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background: linear-gradient(135deg,#0f172a,#1e293b);
+    color:white;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+.container{
+    text-align:center;
+    padding:30px;
+    max-width:800px;
+}
+
+h1{
+    font-size:3rem;
+    margin-bottom:15px;
+}
+
+p{
+    font-size:1.2rem;
+    margin:15px 0;
+    opacity:0.9;
+}
+
+button{
+    margin-top:20px;
+    padding:15px 35px;
+    font-size:1.1rem;
+    border:none;
+    border-radius:50px;
+    cursor:pointer;
+    background:#f59e0b;
+    color:#111;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+.hidden{
+    display:none;
+}
+
+#message{
+    margin-top:30px;
+    font-size:1.8rem;
+    min-height:100px;
+}
+
+#countdown{
+    font-size:5rem;
+    font-weight:bold;
+    color:#fbbf24;
+}
+
+.reveal{
+    animation:pop 1s ease forwards;
+}
+
+@keyframes pop{
+    0%{transform:scale(0);}
+    100%{transform:scale(1);}
+}
+
+#gift{
+    margin-top:20px;
+    font-size:2.5rem;
+}
+
+.laptop{
+    font-size:7rem;
+    margin:20px 0;
+}
+
+.confetti{
+    position:fixed;
+    width:10px;
+    height:10px;
+    top:-10px;
+    animation:fall linear forwards;
+}
+
+@keyframes fall{
+    to{
+        transform:translateY(110vh) rotate(720deg);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🎂 Happy Birthday Aman! 🎂</h1>
+
+    <p>
+        A special surprise is waiting for you...
+    </p>
+
+    <button id="startBtn">Unlock Your Gift 🎁</button>
+
+    <div id="message"></div>
+
+</div>
+
+<script>
+
+const btn = document.getElementById("startBtn");
+const message = document.getElementById("message");
+
+btn.addEventListener("click", async () => {
+
+    btn.style.display = "none";
+
+    await showText("✨ You've worked hard this year...");
+    await delay(2500);
+
+    await showText("🎮 Someone has prepared something amazing for you...");
+    await delay(2500);
+
+    await showText("😎 Ready to see your surprise?");
+    await delay(2500);
+
+    startCountdown();
+
+});
+
+function delay(ms){
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function showText(text){
+    message.innerHTML = text;
+}
+
+function startCountdown(){
+
+    let count = 3;
+
+    message.innerHTML = `<div id="countdown">${count}</div>`;
+
+    const interval = setInterval(() => {
+
+        count--;
+
+        if(count > 0){
+            document.getElementById("countdown").textContent = count;
+        }
+        else{
+
+            clearInterval(interval);
+
+            revealGift();
+        }
+
+    },1000);
+}
+
+function revealGift(){
+
+    launchConfetti();
+
+    message.innerHTML = `
+        <div class="reveal">
+            <div class="laptop">💻🔥</div>
+
+            <h2 style="font-size:3rem;color:#fbbf24;">
+                SURPRISE!!!
+            </h2>
+
+            <div id="gift">
+                Your Birthday Gift is a
+                <br><br>
+                🎮 GAMING LAPTOP 💻🔥
+            </div>
+
+            <p style="margin-top:25px;font-size:1.4rem;">
+                Happy Birthday, Aman!<br>
+                May your FPS be high and your ping be low. 🎉
+            </p>
+        </div>
+    `;
+}
+
+function launchConfetti(){
+
+    for(let i=0;i<150;i++){
+
+        const confetti = document.createElement("div");
+
+        confetti.classList.add("confetti");
+
+        confetti.style.left = Math.random()*100 + "vw";
+        confetti.style.background =
+            `hsl(${Math.random()*360},100%,50%)`;
+
+        confetti.style.animationDuration =
+            (Math.random()*3+2) + "s";
+
+        document.body.appendChild(confetti);
+
+        setTimeout(()=>{
+            confetti.remove();
+        },5000);
+    }
+}
+</script>
+
+</body>
+</html>
